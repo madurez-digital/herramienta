@@ -1,111 +1,94 @@
-/* Reset básico */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
 
+
+
+
+/* Fondo con imagen degradada suave */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(120deg, #f0f4f8, #d6e4f0);
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to bottom right, #e3f2fd, #fffde7), url('https://www.transparenttextures.com/patterns/3px-tile.png');
+  background-size: cover;
+  background-attachment: fixed;
   color: #333;
-  min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
 }
 
-.contenedor {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 800px;
+/* Contenedor principal */
+.container {
+  max-width: 720px;
+  margin: 60px auto;
+  padding: 2rem 2.5rem;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
 }
 
-h2 {
-  font-size: 1.8rem;
+/* Títulos */
+h1, h2 {
+  text-align: center;
+  color: #1565c0;
   margin-bottom: 1.5rem;
-  color: #0066cc;
+  font-weight: 600;
 }
 
-/* Campos */
-.campo {
-  margin-bottom: 1.2rem;
+/* Formulario */
+form {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  display: block;
+  font-size: 0.95rem;
+  color: #555;
 }
 
-input,
-select,
-textarea {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
+input, textarea, select {
+  width: 100%;
+  padding: 0.9rem;
+  border: 1px solid #d0d7de;
   border-radius: 10px;
   font-size: 1rem;
-  transition: border-color 0.2s;
+  background-color: #fafafa;
+  transition: border 0.2s ease;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #007acc;
+input:focus, textarea:focus, select:focus {
   outline: none;
+  border-color: #42a5f5;
+  background-color: #fff;
 }
 
-/* Botones */
-.botones {
-  margin-top: 2rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-
+/* Botón */
 button {
-  background-color: #007acc;
+  background-color: #42a5f5;
   color: white;
-  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  padding: 0.9rem 2rem;
   font-size: 1rem;
+  font-weight: 600;
+  align-self: center;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #005fa3;
+  background-color: #1e88e5;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-ul li {
-  margin-bottom: 0.8rem;
-  padding-left: 0.2rem;
-  border-left: 4px solid #80c0ff;
-  padding-left: 1rem;
-}
-
-/* Responsivo */
+/* Móvil */
 @media (max-width: 600px) {
-  .contenedor {
-    padding: 1rem;
+  .container {
+    margin: 30px 20px;
+    padding: 1.5rem;
   }
 
-  button {
-    width: 100%;
-  }
-
-  .botones {
-    flex-direction: column;
+  h1 {
+    font-size: 1.6rem;
   }
 }
