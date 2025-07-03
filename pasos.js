@@ -12,17 +12,33 @@ const pasos = [
     campos: [
       { tipo: "date", nombre: "fecha_envio", label: "Fecha de envío del formulario" },
       { tipo: "select", nombre: "reunion_virtual", label: "¿Se realizó reunión virtual?", opciones: ["Sí", "No"] },
-      { tipo: "date", nombre: "fecha_reunion", label: "¿Fecha de la reunión?" },
+      { tipo: "date", nombre: "fecha_reunion", label: "Fecha de la reunión virtual (si corresponde)", dependienteDe: "reunion_virtual", valorRequerido: "Sí" },
       { tipo: "select", nombre: "visita_planta", label: "¿Se realizó visita a planta?", opciones: ["Sí", "No"] },
-      { tipo: "date", nombre: "fecha_visita", label: "¿Fecha de la visita?" }
+      { tipo: "date", nombre: "fecha_visita", label: "Fecha de la visita a planta (si corresponde)", dependienteDe: "visita_planta", valorRequerido: "Sí" }
     ]
   },
   {
     titulo: "B. Datos del Consultor/es",
     campos: [
       { tipo: "text", nombre: "consultor_nombre", label: "Nombre y Apellido del Consultor/a" },
-      { tipo: "text", nombre: "consultor_institucion", label: "Institución a la que pertenece" },
-      { tipo: "text", nombre: "consultor_carrera", label: "Carrera a la que pertenece" }
+      {
+        tipo: "select",
+        nombre: "consultor_institucion",
+        label: "Institución a la que pertenece",
+        opciones: ["UNICEN. Universidad Nacional del Centro de la Provincia de Buenos Aires"]
+      },
+      {
+        tipo: "select",
+        nombre: "consultor_carrera",
+        label: "Carrera a la que pertenece",
+        opciones: [
+          "Ingeniería Industrial",
+          "Ingeniería Electromecánica",
+          "Ingeniería Civil",
+          "Ingeniería Química",
+          "Ingeniería en Agrimensura"
+        ]
+      }
     ]
   },
   {
@@ -49,13 +65,13 @@ const pasos = [
     ]
   },
   {
-    titulo: "D. Datos de quien completa el diagnóstico",
+    titulo: "D. Datos de contacto",
     campos: [
-      { tipo: "text", nombre: "nombre_completo", label: "Apellido y nombre" },
-      { tipo: "email", nombre: "diagnostico_correo", label: "Correo electrónico" },
-      { tipo: "tel", nombre: "diagnostico_telefono", label: "Teléfono" },
-      { tipo: "text", nombre: "diagnostico_cargo", label: "Cargo" },
-      { tipo: "number", nombre: "diagnostico_antiguedad", label: "Antigüedad en la empresa (años)" }
+      { tipo: "text", nombre: "contacto_nombre", label: "Nombre de contacto" },
+      { tipo: "email", nombre: "contacto_correo", label: "Correo electrónico de contacto" },
+      { tipo: "tel", nombre: "contacto_telefono", label: "Teléfono de contacto" },
+      { tipo: "text", nombre: "contacto_cargo", label: "Cargo de contacto" },
+      { tipo: "number", nombre: "contacto_antiguedad", label: "Antigüedad en la empresa (años)" }
     ]
   }
 ];
