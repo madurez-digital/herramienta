@@ -7,21 +7,24 @@ function renderPaso() {
   let html = `<h2>${paso.titulo}</h2><form id="formPaso">`;
 
   paso.campos.forEach(campo => {
-    const nombre = campo.nombre;
+    const id = campo.nombre;
     const label = campo.label;
 
-    html += `<label for="${nombre}">${label}</label>`;
+    html += `<div class="campo" id="wrapper_${id}">`;
+    html += `<label for="${id}">${label}</label>`;
 
     if (campo.tipo === "select") {
-      html += `<select name="${nombre}" id="${nombre}">
+      html += `<select name="${id}" id="${id}">
         <option value="">Seleccione una opción</option>`;
       campo.opciones.forEach(opcion => {
         html += `<option value="${opcion}">${opcion}</option>`;
       });
       html += `</select>`;
     } else {
-      html += `<input type="${campo.tipo}" name="${nombre}" id="${nombre}" />`;
+      html += `<input type="${campo.tipo}" name="${id}" id="${id}" />`;
     }
+
+    html += `</div>`;
   });
 
   html += `<div class="botones">`;
@@ -41,18 +44,21 @@ function renderPaso() {
     let valido = true;
 
     for (const campo of pasos[pasoActual].campos) {
-      const valor = data.get(campo.nombre);
-      const campoDependiente = campo.dependienteDe;
-      const valorRequerido = campo.valorRequerido;
+      const nombre = campo.nombre;
+      const dependiente = campo.dependienteDe;
+      const requerido = campo.valorRequerido;
+      const valor = data.get(nombre);
 
-      if (campoDependiente && respuestas[campoDependiente] !== valorRequerido) continue;
+      // Si el campo es condicional y no debe mostrarse, saltearlo
+      if (dependiente && respuestas[dependiente] !== requerido) continue;
 
-      if (valor.trim() === "") {
+      if (!valor || valor.trim() === "") {
         alert("Por favor complete todos los campos obligatorios.");
         valido = false;
         break;
       }
-      respuestas[campo.nombre] = valor;
+
+      respuestas[nombre] = valor;
     }
 
     if (!valido) return;
@@ -72,45 +78,19 @@ function anteriorPaso() {
 }
 
 function aplicarCondicionales() {
-  const campos = document.querySelectorAll("select");
-
-  campos.forEach(select => {
-    select.addEventListener("change", () => {
-      pasos[pasoActual].campos.forEach(campo => {
-        if (campo.dependienteDe) {
-          const depende = campo.dependienteDe;
-          const requerido = campo.valorRequerido;
-          const input = document.getElementById(campo.nombre);
-          const label = document.querySelector(`label[for="${campo.nombre}"]`);
-
-          if (document.getElementById(depende).value === requerido) {
-            input.parentElement.style.display = "block";
-            label.style.display = "block";
-          } else {
-            input.parentElement.style.display = "none";
-            label.style.display = "none";
-            input.value = "";
-          }
-        }
-      });
-    });
-  });
-
-  document.querySelectorAll("input, select").forEach(el => {
-    el.parentElement.style.display = "block";
-  });
-
   pasos[pasoActual].campos.forEach(campo => {
     if (campo.dependienteDe) {
       const depende = campo.dependienteDe;
       const requerido = campo.valorRequerido;
-      const input = document.getElementById(campo.nombre);
-      const label = document.querySelector(`label[for="${campo.nombre}"]`);
-      if (document.getElementById(depende).value !== requerido) {
-        input.parentElement.style.display = "none";
-        label.style.display = "none";
-        input.value = "";
-      }
+      const controlador = document.getElementById(depende);
+      const wrapper = document.getElementById("wrapper_" + campo.nombre);
+
+      const update = () => {
+        wrapper.style.display = (controlador.value === requerido) ? "block" : "none";
+      };
+
+      controlador.addEventListener("change", update);
+      update();
     }
   });
 }
@@ -118,7 +98,9 @@ function aplicarCondicionales() {
 function mostrarResumen() {
   let html = `<h2>Resumen del formulario</h2><ul>`;
   for (const [clave, valor] of Object.entries(respuestas)) {
-    const claveLegible = clave.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+    const claveLegible = clave
+      .replace(/_/g, " ")
+      .replace(/\b\w/g, l => l.toUpperCase());
     html += `<li><strong>${claveLegible}:</strong> ${valor}</li>`;
   }
   html += `</ul>`;
